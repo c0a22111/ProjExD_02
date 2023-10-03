@@ -32,7 +32,7 @@ def d(dic1,dic2):
     t = (dic1,dic2)
     print(t)
     dilec = {
-        (0,0):kk_img,
+        (0,0):pg.transform.rotozoom(kk_img, 0, 2.0),
         (0,-5):pg.transform.rotozoom(kk_r_img, 90, 2.0),
         (+5,-5):pg.transform.rotozoom(kk_r_img, 45, 2.0),
         (+5,0):pg.transform.rotozoom(kk_r_img, 0, 2.0),

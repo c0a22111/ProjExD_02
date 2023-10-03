@@ -50,6 +50,11 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        
+        # 衝突判定
+        if kk_rct.colliderect(bomb_rct): # もし重なったら
+            print("Game Over")
+            return # main関数から抜ける
 
         """こうかとん"""
         screen.blit(bg_img, [0, 0])

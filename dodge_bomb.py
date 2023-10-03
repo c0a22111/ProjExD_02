@@ -19,6 +19,7 @@ def main():
     bomb_rct = bomb_img.get_rect() # surfaceからrect抽出
     x, y = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     bomb_rct.center = (x, y) # rectにランダムな座標設定
+    vx, vy = +5, +5 #座標を+5ずつ動かす
 
     clock = pg.time.Clock()
     tmr = 0
@@ -29,6 +30,7 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
+        bomb_rct.move_ip(vx,vy) # 指定の画像を変数ずつ動かす
         screen.blit(bomb_img, bomb_rct)
         pg.display.update()
         tmr += 1

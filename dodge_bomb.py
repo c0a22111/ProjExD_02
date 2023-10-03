@@ -13,7 +13,18 @@ delta = {
     pg.K_RIGHT:(+5, 0)
 }
 
-
+def check_bound(obj_rct): # はみ出しチェック
+    """
+    引数:こうかとんRectか爆弾Rect
+    戻り値:タプル（横、縦方向判定結果）
+    """
+    yoko, tate = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right: # 横方向
+        yoko = False
+    if obj_rct.top < 0 or HEIGHT < obj_rct.bottom: # 縦方向
+        tate = False
+    return yoko, tate
+    
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -49,15 +60,22 @@ def main():
                 sum_mv[0] += mv[0] # 横方向
                 sum_mv[1] += mv[1] # 縦方向
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) # 指定の画像を変数ずつ動かす
+        if check_bound(kk_rct) != (True, True): # はみ出し判定
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)        
         
         """爆弾"""
         bomb_rct.move_ip(vx,vy) # 指定の画像を変数ずつ動かす
+        yoko, tate = check_bound(bomb_rct)
+        if not yoko: # 符号反転によるはみ出し判定
+            vx *= -1
+        if not tate:
+            vy *= -1
         screen.blit(bomb_img, bomb_rct)
-        pg.display.update()
 
+        pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":

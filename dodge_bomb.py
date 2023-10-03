@@ -13,6 +13,7 @@ delta = {
     pg.K_RIGHT:(+5, 0)
 }
 
+
 def check_bound(obj_rct): # はみ出しチェック
     """
     引数:こうかとんRectか爆弾Rect
@@ -24,14 +25,35 @@ def check_bound(obj_rct): # はみ出しチェック
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom: # 縦方向
         tate = False
     return yoko, tate
-    
+
+def d(dic1,dic2):
+    kk_img = pg.image.load("ex02/fig/3.png")
+    kk_r_img = pg.transform.flip(kk_img,True,False)
+    t = (dic1,dic2)
+    print(t)
+    dilec = {
+        (0,0):kk_img,
+        (0,-5):pg.transform.rotozoom(kk_r_img, 90, 2.0),
+        (+5,-5):pg.transform.rotozoom(kk_r_img, 45, 2.0),
+        (+5,0):pg.transform.rotozoom(kk_r_img, 0, 2.0),
+        (+5,+5):pg.transform.rotozoom(kk_r_img, -45, 2.0),
+        (0,+5):pg.transform.rotozoom(kk_r_img, -90, 2.0),
+        (-5,+5):pg.transform.rotozoom(kk_img, 45, 2.0),
+        (-5,0):pg.transform.rotozoom(kk_img, 0, 2.0),
+        (-5,-5):pg.transform.rotozoom(kk_img, -45, 2.0)
+    }
+    for key, vl in dilec.items():
+        if t == key:
+            print(dilec[key])
+            return vl
+        
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     """こうかとん"""
-    kk_img = pg.image.load("ex02/fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    # kk_img = pg.image.load("ex02/fig/3.png")
+    kk_img = d(0,0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400)
 
@@ -67,6 +89,9 @@ def main():
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) # 指定の画像を変数ずつ動かす
         if check_bound(kk_rct) != (True, True): # はみ出し判定
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
+
+
+        kk_img = d(sum_mv[0],sum_mv[1])
         screen.blit(kk_img, kk_rct)        
         
         """爆弾"""
